@@ -1,0 +1,72 @@
+### Question 1
+Left-most derivation
+
+Statement
+Assignment
+Identifier = Expression
+A = Expression
+A = Term
+A = Term * Factor
+A = Factor * Factor
+A = Identifier * Factor 
+A = B * Factor
+A = B * (Expression)
+A = B * (Term)
+A = B * (Term * Factor)
+A = B * (Factor * Factor)
+A = B * (Identifier * Factor)
+A = B * (C * Factor)
+A = B * (C * (Expression))
+A = B * (C * (Expression + Term))
+A = B * (C * (Term + Term))
+A = B * (C * (Factor + Term))
+A = B * (C * (Identifier + Term))
+A = B * (C * (A + Term))
+A = B * (C * (A + Factor))
+A = B * (C * (A + Identifier))
+A = B * (C * (A + B))
+
+
+Parse Tree
+
+               Statement
+                  | 
+              Assignment
+        /         |         \
+      Iden        =         Expr 
+       |                      | 
+       A                     Term 
+                       /      |      \ 
+                     Term     *     Factor 
+                     /                  \ 
+                  Iden                (Expr) 
+                    |                    | 
+                    B                   Term 
+                                    /    |    \ 
+                                  Term   *   Factor 
+                                   |              | 
+                                 Factor         (Expr) 
+                                   |          /    |    \ 
+                                  Iden     Expr    +   Term 
+                                   |         |           | 
+                                   C       Term        Factor 
+                                             |            | 
+                                           Factor       Iden 
+                                             |            | 
+                                            Iden          B 
+                                             | 
+                                             A 
+
+### Question 2
+
+a. Using static scoping, when add(69) is called inside bar, it updates the global u using the 
+formula u := v + u + z, where v = 69, u = 42, and z = 69. This results in u = 180. Therefore, 
+the final output is 180.
+
+b. With deep binding, add uses the v from where it was defined in foo (which is 42). The 
+calculation u := v + u + z becomes u := 42 + 17 + 42 = 101, but this updates the global u. The 
+final output is 126.
+
+c. Using dynamic scope with shallow binding, add uses foo's local v = 42 and w = 13, so the 
+calculation for u := v + u + z results in u = 97, but it only affects bar's local u. Since main 
+prints the global u, the final output is 42.
