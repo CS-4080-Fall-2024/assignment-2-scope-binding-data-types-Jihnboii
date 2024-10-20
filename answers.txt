@@ -1,0 +1,111 @@
+### Question 1
+Left-most derivation
+
+Statement
+Assignment
+Identifier = Expression
+A = Expression
+A = Term
+A = Term * Factor
+A = Factor * Factor
+A = Identifier * Factor 
+A = B * Factor
+A = B * (Expression)
+A = B * (Term)
+A = B * (Term * Factor)
+A = B * (Factor * Factor)
+A = B * (Identifier * Factor)
+A = B * (C * Factor)
+A = B * (C * (Expression))
+A = B * (C * (Expression + Term))
+A = B * (C * (Term + Term))
+A = B * (C * (Factor + Term))
+A = B * (C * (Identifier + Term))
+A = B * (C * (A + Term))
+A = B * (C * (A + Factor))
+A = B * (C * (A + Identifier))
+A = B * (C * (A + B))
+
+
+Parse Tree
+
+               Statement
+                  | 
+              Assignment
+        /         |         \
+      Iden        =         Expr 
+       |                      | 
+       A                     Term 
+                       /      |      \
+                     Term     *     Factor 
+                     /                  \ 
+                  Iden                (Expr) 
+                    |                    | 
+                    B                   Term 
+                                    /    |    \ 
+                                  Term   *   Factor 
+                                   |              | 
+                                 Factor         (Expr) 
+                                   |          /    |    \ 
+                                  Iden     Expr    +   Term 
+                                   |         |           | 
+                                   C       Term        Factor 
+                                             |            | 
+                                           Factor       Iden 
+                                             |            | 
+                                            Iden          B 
+                                             | 
+                                             A 
+
+### Question 2
+
+a. In static scoping, variables are resolved based on the lexical structure of the program. 
+When add(69) is called inside bar, it refers to the global v and u, as defined in the global 
+scope. Therefore, the calculation u := v + u + z uses v = 69, u = 42, and z = 69, which updates 
+the global u to 180. Thus, the final output is 180.
+
+global scope: u = 42, v = 69, w = 17
+
+foo(42, 13):
+    int v = 42
+    bar(add):
+        int u = 17  # Local to bar
+        add(69):  # 69 is passed as the argument z
+            global u = 69 (global v) + 42 (global u) + 69 (z)  # global u updated to 180
+
+print(u): 180  # Prints the updated global u
+
+
+b. With deep binding, add captures the environment of the function where foo was called. In this 
+case, it uses the local v = 42 from foo. Therefore, the calculation u := v + u + z becomes 
+u := 42 + 42 + 42 = 126, which updates the global u to 126. The final output is 126.
+
+global scope: u = 42, v = 69, w = 17
+
+foo(42, 13):
+    int v = 42
+    bar(add):
+        int u = 17  # Local to bar, set to global w
+        add(42):  # z = 42 passed from bar
+            global u = 42 (foo's v) + 42 (global u) + 42 (z from fun(v))
+            global u updated to 126
+
+print(u): 126  # Prints the updated global u
+
+
+c. In dynamic scope with shallow binding, variables are resolved based on the most recent activation
+record. In this case, add(42) refers to the local v = 42 from foo and the local u = 13 from bar. 
+The calculation u := v + u + z results in u = 42 (foo's v) + 13 (bar's u) + 42 (z) = 97. Which updates 
+the global u to 97.
+
+global scope: u = 42, v = 69, w = 17
+
+foo(42, 13):
+    int v = 42
+    bar(add):
+        int u = 13  # Local to bar, set to 13 from foo's w
+        add(42):  # z = 42 passed from foo's v
+            global u = 42 (from foo's v) + 13 (local u in bar) + 42 (z from fun(v))
+            global u updated to 97
+
+print(u): 97  # Prints the global u, which is 97
