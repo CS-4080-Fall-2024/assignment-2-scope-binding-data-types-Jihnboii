@@ -1,3 +1,14 @@
+/*
+Jonathan Rodriguez
+Date: 10/20/2024
+CS 4080
+Assignment 2
+
+This class represents an individual face of the Rubik's Cube. It provides methods to 
+get and set rows and columns, as well as rotate the face itself 
+(clockwise or anti-clockwise).
+*/
+
 public class RubikSide implements Cloneable {
     private final int size;  // Size of the Rubik's cube side (e.g., 3 for a 3x3)
     private int[][] values;  // 2D array to represent the face colors

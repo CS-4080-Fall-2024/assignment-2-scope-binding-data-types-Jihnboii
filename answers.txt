@@ -36,7 +36,7 @@ Parse Tree
       Iden        =         Expr 
        |                      | 
        A                     Term 
-                       /      |      \ 
+                       /      |      \
                      Term     *     Factor 
                      /                  \ 
                   Iden                (Expr) 

@@ -1,3 +1,16 @@
+/*
+Jonathan Rodriguez
+Date: 10/20/2024
+CS 4080
+Assignment 2
+
+This class implements a Sudoku solver using a backtracking algorithm. 
+The program attempts to fill empty cells in a Sudoku puzzle while ensuring that 
+each row, column, and 3x3 sub-box contains the digits 1-9 exactly once. 
+The program uses recursive backtracking to try different possibilities, 
+and once a solution is found, the solved puzzle is printed.
+*/
+
 public class SudokuSolver {
     public static void main(String[] args) {
         // Example Sudoku board (use '.' to represent empty spaces)
